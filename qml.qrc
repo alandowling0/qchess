@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>images/BlackBishop.png</file>
+        <file>images/BlackKing.png</file>
+        <file>images/BlackKnight.png</file>
+        <file>images/BlackPawn.png</file>
+        <file>images/BlackQueen.png</file>
+        <file>images/BlackRook.png</file>
+        <file>images/Board.png</file>
+        <file>images/WhiteBishop.png</file>
+        <file>images/WhiteKing.png</file>
+        <file>images/WhiteKnight.png</file>
+        <file>images/WhitePawn.png</file>
+        <file>images/WhiteQueen.png</file>
+        <file>images/WhiteRook.png</file>
+        <file>sounds/NewGame.wav</file>
+        <file>sounds/PieceCapture.wav</file>
+        <file>sounds/PieceMove.wav</file>
+        <file>qml/Board.qml</file>
+        <file>qml/ChessClock.qml</file>
+        <file>qml/ChessEngine.qml</file>
+        <file>qml/Destinations.qml</file>
+        <file>qml/MovesModel.qml</file>
+        <file>qml/Notation.qml</file>
+        <file>qml/Piece.qml</file>
+        <file>qml/PieceModel.qml</file>
+    </qresource>
+</RCC>
