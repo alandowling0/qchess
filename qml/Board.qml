@@ -1,5 +1,5 @@
-import QtQuick 2.0
-import QtMultimedia 5.0
+import QtQuick 2.5
+import QtMultimedia 5.5
 
 import com.panchito.chess 1.0
 
