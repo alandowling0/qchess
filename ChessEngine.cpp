@@ -5,8 +5,8 @@
 #include "engine/ChessMove.h"
 #include "engine/AnalysisEngine.h"
 
-ChessEngine::ChessEngine():
-    iObserving(false)
+ChessEngine::ChessEngine()
+    :iAnalysisEngine(*this)
 {
 
 }
@@ -71,22 +71,17 @@ void ChessEngine::startThinking()
 
     ChessPosition position(board, sideToMove);
 
-    iObserving = true;
-
-    iFuture = std::async(std::launch::async, &AnalysisEngine::Start, AnalysisEngine(*this), position);
+    iAnalysisEngine.StartAsync(position);
 }
 
 void ChessEngine::stopThinking()
 {
-    iObserving = false;
-
-    if(iFuture.valid())
-        iFuture.get();
+    iAnalysisEngine.Stop();
 }
 
 bool ChessEngine::isThinking() const
 {
-    return iObserving;
+    return iAnalysisEngine.Started();
 }
 
 void ChessEngine::MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluation)
@@ -119,7 +114,3 @@ void ChessEngine::MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluat
     }
 }
 
-bool ChessEngine::Observing() const
-{
-    return iObserving;
-}

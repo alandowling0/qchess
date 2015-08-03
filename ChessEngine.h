@@ -24,18 +24,16 @@ public:
 
 	//From MAnalysisEngineObserver
     void MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluation) override;
-    bool Observing() const override;
 
 signals:
     void thinkingComplete(int aOriginX, int aOriginY, int aDestinationX, int aDestinationY, int aMoving, int aCaptured);
     void mainLineChanged(QString aMainLine);
 
 private:
+    AnalysisEngine iAnalysisEngine;
+
     ChessMove iBestMove;
     int iEvaluation;
-
-    std::future<void> iFuture;
-    std::atomic<bool> iObserving;
 
     QList<int> iBoard;
 

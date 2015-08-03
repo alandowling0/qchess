@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "AnalysisEngine.h"
 #include "ChessMove.h"
+#include "ChessPosition.h"
 
 
 AnalysisEngine::AnalysisEngine(MAnalysisEngineObserver& aObserver)
-    :iObserver(aObserver)
+    :iObserver(aObserver), iStarted(false)
     //:iHashTable(std::make_unique<HashTable>())
 {
     auto hashTable = new HashTable();
@@ -12,24 +13,47 @@ AnalysisEngine::AnalysisEngine(MAnalysisEngineObserver& aObserver)
     iHashTable.reset(hashTable);
 }
 
+void AnalysisEngine::StartAsync(ChessPosition aPosition)
+{
+    assert(!iStarted);
+    if(iStarted)
+        Stop();
+
+    iStarted = true;
+    iFuture = std::async(std::launch::async, &AnalysisEngine::Start, this, aPosition);
+}
+
 void AnalysisEngine::Start(ChessPosition aPosition)
 {
-	iPosition = std::move(aPosition);
+    iPosition = std::move(aPosition);
 
-	iMainLine.resize(1);
-	iMainLine[0].clear();
+    iMainLine.resize(1);
+    iMainLine[0].clear();
 
-	for (auto depth = 1; depth <= KMaxDepth; ++depth)
-	{
-		iCurrentDepth = 0;
+    for (auto depth = 1; depth <= KMaxDepth; ++depth)
+    {
+        iCurrentDepth = 0;
 
         Analyze(depth, KMaxEvaluation, -KMaxEvaluation);
-	}
+    }
+}
+
+void AnalysisEngine::Stop()
+{
+    iStarted = false;
+
+    if(iFuture.valid())
+        iFuture.wait();
+}
+
+bool AnalysisEngine::Started() const
+{
+    return iStarted;
 }
 
 int AnalysisEngine::Analyze(int aDepth, int aAlpha, int aBeta)
 {
-    if(!iObserver.Observing())
+    if(!iStarted)
         return 0;
 
 	iMainLine.resize(iCurrentDepth + aDepth);
@@ -176,7 +200,7 @@ int AnalysisEngine::Analyze(int aDepth, int aAlpha, int aBeta)
 
 void AnalysisEngine::UpdateMainLine(ChessMove const& aBestMove, int aEvaluation)
 {
-    if(!iObserver.Observing())
+    if(!iStarted)
         return;
 
 	iMainLine[iCurrentDepth].clear();
