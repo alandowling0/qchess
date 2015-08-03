@@ -75,7 +75,7 @@ Item {
         anchors.fill: root
         onClicked: {
 
-            if(mouseX < width && mouseY > 0)
+            if(!chessEngine.isThinking() && mouseX < width && mouseY > 0)
             {
                 var col = getCol(mouseX)
                 var row = getRow(mouseY)                
@@ -179,6 +179,8 @@ Item {
 
     function newGame()
     {
+        chessEngine.stopThinking()
+
         destinations.clear()
 
         pieceModel.newGame()
@@ -199,6 +201,8 @@ Item {
 
     function undoMove(colFrom, rowFrom, col, row, moving, captured)
     {
+        chessEngine.stopThinking()
+
         destinations.clear()
 
         pieceSlidingEnabled = true

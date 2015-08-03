@@ -5,6 +5,12 @@
 #include "engine/ChessMove.h"
 #include "engine/AnalysisEngine.h"
 
+ChessEngine::ChessEngine():
+    iObserving(false)
+{
+
+}
+
 void ChessEngine::setPosition(QList<int> aBoard, bool aWhiteToMove)
 {
     iBoard = aBoard;
@@ -76,6 +82,11 @@ void ChessEngine::stopThinking()
 
     if(iFuture.valid())
         iFuture.get();
+}
+
+bool ChessEngine::isThinking()
+{
+    return iObserving;
 }
 
 void ChessEngine::MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluation)

@@ -13,10 +13,13 @@ class ChessEngine : public QObject, MAnalysisEngineObserver
     Q_OBJECT
 
 public:
+    ChessEngine();
+
     Q_INVOKABLE void setPosition(QList<int> aBoard, bool aWhiteToMove);
     Q_INVOKABLE QList<bool> getDestinations(int aX, int aY) const;
     Q_INVOKABLE void startThinking();
     Q_INVOKABLE void stopThinking();
+    Q_INVOKABLE bool isThinking();
 
 	//From MAnalysisEngineObserver
     void MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluation) override;
