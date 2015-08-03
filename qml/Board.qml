@@ -18,26 +18,17 @@ Item {
 
     property bool whiteToMove: true
 
-    signal moveEntered(int colFrom, int rowFrom, int colTo, int rowTo, int moving, int captured);
-
-    onMoveEntered: {
-        var position = getPosition()
-
-        chessEngine.setPosition(position, whiteToMove)
-
-        chessEngine.startThinking()
-    }
+    signal humanMovePlayed(int colFrom, int rowFrom, int colTo, int rowTo, int moving, int captured)
+    signal computerMovePlayed(int colFrom, int rowFrom, int colTo, int rowTo, int moving, int captured)
 
     //C++ component decides the computer's moves, and provides legal moves
     ChessEngine{
         id: chessEngine
 
         onThinkingComplete:{
-            console.log("thinking complete")
-            console.log(aOriginX, aOriginY, aDestinationX, aDestinationY, aMoving, aCaptured)
-
             stopThinking()
             doMove(aOriginX, aOriginY, aDestinationX, aDestinationY, aMoving, aCaptured)
+            computerMovePlayed(aOriginX, aOriginY, aDestinationX, aDestinationY, aMoving, aCaptured)
         }
     }
 
@@ -111,7 +102,7 @@ Item {
 
                         doMove(colFrom, rowFrom, col, row, moving, captured)
 
-                        moveEntered(colFrom, rowFrom, col, row, moving, captured)
+                        humanMovePlayed(colFrom, rowFrom, col, row, moving, captured)
 
                         if(haveClickedPiece)
                         {
@@ -238,5 +229,14 @@ Item {
         }
 
         return position
+    }
+
+    function startThinking()
+    {
+        var position = getPosition()
+
+        chessEngine.setPosition(position, whiteToMove)
+
+        chessEngine.startThinking()
     }
 }

@@ -44,8 +44,17 @@ ApplicationWindow {
                  chessClock.pressClock2()
             }
 
-            onMoveEntered: {
+            onHumanMovePlayed: {
                 movesModel.doMove(colFrom, rowFrom, colTo, rowTo, moving, captured)
+
+                notation.positionViewAtEnd()
+
+                startThinking()
+            }
+
+            onComputerMovePlayed: {
+                movesModel.doMove(colFrom, rowFrom, colTo, rowTo, moving, captured)
+
                 notation.positionViewAtEnd()
             }
         }
