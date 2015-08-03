@@ -91,20 +91,30 @@ bool ChessEngine::isThinking() const
 
 void ChessEngine::MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluation)
 {
-    for (auto const& move : aMainLine)
-        std::cout << move.AlgebraicNotation() << " ";
+    assert(!aMainLine.empty());
+    if(aMainLine.empty())
+        return;
 
-    std::cout << aEvaluation << std::endl;
+    iBestMove = aMainLine[0];
+    iEvaluation = aEvaluation;
+
+    std::stringstream ss;
+
+    for (auto const& move : aMainLine)
+        ss << move.AlgebraicNotation() << " ";
+
+    ss << aEvaluation << std::endl;
+
+    emit mainLineChanged(QString(ss.str().c_str()));
 
     if(aMainLine.size() > 4)
     {
-        auto bestMove = aMainLine[0];
-        emit thinkingComplete(bestMove.OriginX(),
-                              bestMove.OriginY(),
-                              bestMove.DestinationX(),
-                              bestMove.DestinationY(),
-                              static_cast<int>(bestMove.Moving()),
-                              static_cast<int>(bestMove.Captured())
+        emit thinkingComplete(iBestMove.OriginX(),
+                              iBestMove.OriginY(),
+                              iBestMove.DestinationX(),
+                              iBestMove.DestinationY(),
+                              static_cast<int>(iBestMove.Moving()),
+                              static_cast<int>(iBestMove.Captured())
                               );
     }
 }

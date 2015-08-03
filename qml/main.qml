@@ -78,14 +78,18 @@ ApplicationWindow {
     }
 
     statusBar: StatusBar {
-            RowLayout {
-                anchors.fill: parent
-                Label {
-                    text: "Status Bar"
-                    font.pointSize: 10
+                height: 25
+                width: root.width
+
+                Text {
+                    anchors.fill: parent
+                    text: board.mainLine
+                    fontSizeMode: Text.Fit
+                    font.pointSize: 100
+                    font.bold: true
+                    visible: displayMainLine.checked
                 }
             }
-        }
 
     menuBar: MenuBar {
             id: menuBar
@@ -101,6 +105,7 @@ ApplicationWindow {
                 title: "View"
                 MenuItem { id: displayClock; text: "Show Clock"; checkable: true; checked: true}
                 MenuItem { id: displayNotation; text: "Show Notation"; checkable: true; checked: true}
+                MenuItem { id: displayMainLine; text: "Engine Spy"; checkable: true; checked: true}
             }
 
             Menu {

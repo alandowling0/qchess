@@ -18,8 +18,11 @@ Item {
 
     property bool whiteToMove: true
 
+    property string mainLine
+
     signal humanMovePlayed(int colFrom, int rowFrom, int colTo, int rowTo, int moving, int captured)
     signal computerMovePlayed(int colFrom, int rowFrom, int colTo, int rowTo, int moving, int captured)
+
 
     //C++ component decides the computer's moves, and provides legal moves
     ChessEngine{
@@ -29,6 +32,10 @@ Item {
             stopThinking()
             doMove(aOriginX, aOriginY, aDestinationX, aDestinationY, aMoving, aCaptured)
             computerMovePlayed(aOriginX, aOriginY, aDestinationX, aDestinationY, aMoving, aCaptured)
+        }
+
+        onMainLineChanged:{
+            mainLine = aMainLine
         }
     }
 

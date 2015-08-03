@@ -2,6 +2,7 @@
 
 #include "engine/stdafx.h"
 #include "engine/AnalysisEngine.h"
+#include "engine/ChessMove.h"
 #include <QObject>
 #include <QVariant>
 #include <QList>
@@ -27,10 +28,12 @@ public:
 
 signals:
     void thinkingComplete(int aOriginX, int aOriginY, int aDestinationX, int aDestinationY, int aMoving, int aCaptured);
-    //void mainLineChanged();
-
+    void mainLineChanged(QString aMainLine);
 
 private:
+    ChessMove iBestMove;
+    int iEvaluation;
+
     std::future<void> iFuture;
     std::atomic<bool> iObserving;
 

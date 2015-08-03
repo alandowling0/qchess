@@ -6,10 +6,22 @@ Rectangle {
     width: 100
     height: 62
 
+    property bool thinking: false
     signal thinkingComplete(int aOriginX, int aOriginY, int aDestinationX, int aDestinationY)
+    signal mainLineChanged(string aMainLine)
 
     onThinkingComplete: {
-        console.log(aOriginX, aOriginY, aDestinationX, aDestinationY)
+        thinking = false
+    }
+
+    function isThinking()
+    {
+        return thinking
+    }
+
+    function stopThinking()
+    {
+        thinking = false
     }
 
     function setPosition(pos, white)
@@ -31,6 +43,7 @@ Rectangle {
 
     function startThinking()
     {
+        thinking = true
         thinkingComplete(0,0,0,4,4,0)
     }
 }
