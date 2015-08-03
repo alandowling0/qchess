@@ -3,8 +3,8 @@
 #include "ChessMove.h"
 
 
-AnalysisEngine::AnalysisEngine()// MEngineObserver& aObserver)
-	//:iObserver(aObserver)
+AnalysisEngine::AnalysisEngine(MAnalysisEngineObserver& aObserver)
+    :iObserver(aObserver)
     //:iHashTable(std::make_unique<HashTable>())
 {
     auto hashTable = new HashTable();
@@ -27,13 +27,11 @@ void AnalysisEngine::Start(ChessPosition aPosition)
 	}
 }
 
-void AnalysisEngine::Stop()
-{
-
-}
-
 int AnalysisEngine::Analyze(int aDepth, int aAlpha, int aBeta)
 {
+    if(!iObserver.Observing())
+        return 0;
+
 	iMainLine.resize(iCurrentDepth + aDepth);
 
 	bool maximize;
@@ -176,8 +174,11 @@ int AnalysisEngine::Analyze(int aDepth, int aAlpha, int aBeta)
 	return bestScore;
 }
 
-void AnalysisEngine::UpdateMainLine(ChessMove const& aBestMove, int /*aEvaluation*/)
+void AnalysisEngine::UpdateMainLine(ChessMove const& aBestMove, int aEvaluation)
 {
+    if(!iObserver.Observing())
+        return;
+
 	iMainLine[iCurrentDepth].clear();
 
 	iMainLine[iCurrentDepth].push_back(aBestMove);
@@ -195,11 +196,6 @@ void AnalysisEngine::UpdateMainLine(ChessMove const& aBestMove, int /*aEvaluatio
 
 	if (iCurrentDepth == 0)
 	{
-		//iObserver.MainLineChanged(iMainLine[0], aEvaluation);
-
-		for (auto const& move : iMainLine[0])
-			std::cout << move.AlgebraicNotation() << " ";
-
-		std::cout << std::endl;
+        iObserver.MainLineChanged(iMainLine[0], aEvaluation);
 	}
 }

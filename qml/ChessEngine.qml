@@ -6,6 +6,12 @@ Rectangle {
     width: 100
     height: 62
 
+    signal thinkingComplete(int aOriginX, int aOriginY, int aDestinationX, int aDestinationY)
+
+    onThinkingComplete: {
+        console.log(aOriginX, aOriginY, aDestinationX, aDestinationY)
+    }
+
     function setPosition(pos, white)
     {
 
@@ -21,6 +27,11 @@ Rectangle {
         }
 
         return dests
+    }
+
+    function startThinking()
+    {
+        thinkingComplete(0,0,0,4,4,0)
     }
 }
 

@@ -135,17 +135,17 @@ std::string ChessMove::AlgebraicNotation() const
 	return move;
 }
 
-std::string ChessMove::SquareName(int aX, int /*aY*/) const
+std::string ChessMove::SquareName(int aX, int aY) const
 {
 	std::string name;
 
 	char file = 'a';
 	file += aX;
 
-//	int rank = aY + 1;
+    int rank = aY + 1;
 
 	name += file;
-//	name += std::to_string(rank); //FIXME std::to_string not building for android
+    name += std::to_string(rank); //FIXME std::to_string not building for android
 
 	return name;
 }

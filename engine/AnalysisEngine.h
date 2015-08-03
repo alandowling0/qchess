@@ -4,19 +4,19 @@
 
 class ChessMove;
 
-class MEngineObserver
+class MAnalysisEngineObserver
 {
 public:
 	virtual void MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluation) = 0;
+    virtual bool Observing() = 0;
 };
 
 class AnalysisEngine
 {
 public:
-	AnalysisEngine();// MEngineObserver& aObserver);
+    AnalysisEngine(MAnalysisEngineObserver& aObserver);
 
-	void Start(ChessPosition aPosition);
-	void Stop();
+    void Start(ChessPosition aPosition);
 
 private:
 	int Analyze(int aDepth, int aAlpha, int aBeta);
@@ -27,7 +27,7 @@ private:
 	static const int KMaxEvaluation = 10000;
 	static const int KMinHashTableSaveDepth = 1;
 
-	//MEngineObserver& iObserver;
+    MAnalysisEngineObserver& iObserver;
 	ChessPosition iPosition;
 	std::vector<std::vector<ChessMove>> iMainLine;
 	size_t iCurrentDepth;

@@ -20,9 +20,25 @@ Item {
 
     signal moveEntered(int colFrom, int rowFrom, int colTo, int rowTo, int moving, int captured);
 
+    onMoveEntered: {
+        var position = getPosition()
+
+        chessEngine.setPosition(position, whiteToMove)
+
+        chessEngine.startThinking()
+    }
+
     //C++ component decides the computer's moves, and provides legal moves
     ChessEngine{
         id: chessEngine
+
+        onThinkingComplete:{
+            console.log("thinking complete")
+            console.log(aOriginX, aOriginY, aDestinationX, aDestinationY, aMoving, aCaptured)
+
+            stopThinking()
+            doMove(aOriginX, aOriginY, aDestinationX, aDestinationY, aMoving, aCaptured)
+        }
     }
 
     //Standard 8x8 chessboard image onto which piece images are overlayed
@@ -93,13 +109,9 @@ Item {
                         var moving = pieceModel.get(pieceModel.selectedIndex).typeId
                         var captured = haveClickedPiece ? pieceModel.get(clickedPieceIndex).typeId : 0
 
-                        pieceSlidingEnabled = true
-                        pieceModel.doMove(colFrom, rowFrom, col, row, moving, captured)
-                        pieceSlidingEnabled = false
+                        doMove(colFrom, rowFrom, col, row, moving, captured)
 
                         moveEntered(colFrom, rowFrom, col, row, moving, captured)
-
-                        whiteToMove = !whiteToMove
 
                         if(haveClickedPiece)
                         {
