@@ -19,11 +19,11 @@ public:
     Q_INVOKABLE QList<bool> getDestinations(int aX, int aY) const;
     Q_INVOKABLE void startThinking();
     Q_INVOKABLE void stopThinking();
-    Q_INVOKABLE bool isThinking();
+    Q_INVOKABLE bool isThinking() const;
 
 	//From MAnalysisEngineObserver
     void MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluation) override;
-    bool Observing() override;
+    bool Observing() const override;
 
 signals:
     void thinkingComplete(int aOriginX, int aOriginY, int aDestinationX, int aDestinationY, int aMoving, int aCaptured);

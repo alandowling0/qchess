@@ -8,7 +8,7 @@ class MAnalysisEngineObserver
 {
 public:
 	virtual void MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluation) = 0;
-    virtual bool Observing() = 0;
+    virtual bool Observing() const = 0;
 };
 
 class AnalysisEngine

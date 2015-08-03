@@ -84,7 +84,7 @@ void ChessEngine::stopThinking()
         iFuture.get();
 }
 
-bool ChessEngine::isThinking()
+bool ChessEngine::isThinking() const
 {
     return iObserving;
 }
@@ -109,7 +109,7 @@ void ChessEngine::MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluat
     }
 }
 
-bool ChessEngine::Observing()
+bool ChessEngine::Observing() const
 {
     return iObserving;
 }
