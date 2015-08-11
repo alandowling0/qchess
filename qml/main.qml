@@ -49,7 +49,10 @@ ApplicationWindow {
 
                 notation.positionViewAtEnd()
 
-                startThinking()
+                if(!twoPlayer.checked)
+                {
+                    startThinking()
+                }
             }
 
             onComputerMovePlayed: {
@@ -106,6 +109,7 @@ ApplicationWindow {
                 MenuItem { id: displayClock; text: "Show Clock"; checkable: true; checked: true}
                 MenuItem { id: displayNotation; text: "Show Notation"; checkable: true; checked: true}
                 MenuItem { id: displayMainLine; text: "Engine Spy"; checkable: true; checked: true}
+                MenuItem { id: twoPlayer; text: "Two Player Mode"; checkable: true; checked: false}
             }
 
             Menu {
