@@ -111,15 +111,6 @@ Item {
 
                         humanMovePlayed(colFrom, rowFrom, col, row, moving, captured)
 
-                        if(haveClickedPiece)
-                        {
-                            captureSound.play()
-                        }
-                        else
-                        {
-                            moveSound.play()
-                        }
-
                         pieceModel.clearSelection()
                     }
                     else
@@ -202,6 +193,15 @@ Item {
         pieceSlidingEnabled = true
         pieceModel.doMove(colFrom, rowFrom, col, row, moving, captured)
         pieceSlidingEnabled = false
+
+        if(captured === 0)
+        {
+            moveSound.play()
+        }
+        else
+        {
+            captureSound.play()
+        }
 
         whiteToMove = !whiteToMove
     }
