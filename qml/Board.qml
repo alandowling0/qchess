@@ -17,6 +17,7 @@ Item {
     property bool pieceSlidingEnabled: false //pieces slide when a move is being played (or taken back)
 
     property bool whiteToMove: true
+    property bool soundEnabled: true
 
     property string mainLine
 
@@ -181,16 +182,19 @@ Item {
     //Sounds
     SoundEffect {
             id: newGameSound
+            muted: !soundEnabled
             source: "../sounds/NewGame.wav"
         }
 
     SoundEffect {
             id: moveSound
+            muted: !soundEnabled
             source: "../sounds/PieceMove.wav"
         }
 
     SoundEffect {
             id: captureSound
+            muted: !soundEnabled
             source: "../sounds/PieceCapture.wav"
         }
 

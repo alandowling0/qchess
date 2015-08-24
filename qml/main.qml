@@ -37,6 +37,8 @@ ApplicationWindow {
             anchors.centerIn: gameArea
             z: 1
 
+            soundEnabled: sound.checked
+
             onWhiteToMoveChanged: {
              if(whiteToMove)
                 chessClock.pressClock1()
@@ -105,10 +107,11 @@ ApplicationWindow {
             }
 
             Menu {
-                title: "View"
+                title: "Settings"
                 MenuItem { id: displayClock; text: "Show Clock"; checkable: true; checked: true}
                 MenuItem { id: displayNotation; text: "Show Notation"; checkable: true; checked: true}
                 MenuItem { id: displayMainLine; text: "Engine Spy"; checkable: true; checked: true}
+                MenuItem { id: sound; text: "Sound"; checkable: true; checked: true}
                 MenuItem { id: twoPlayer; text: "Two Player Mode"; checkable: true; checked: false}
             }
 
