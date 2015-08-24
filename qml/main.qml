@@ -154,6 +154,14 @@ ApplicationWindow {
                 }
 
                 MenuItem {
+                    text: "Force Move";
+                    shortcut: "Ctrl+F";
+                    onTriggered: {
+                        board.startThinking()
+                    }
+                }
+
+                MenuItem {
                     text: "Offer Draw";
                     shortcut: "Ctrl+D";
                     enabled: movesModel.newGameAvailable
