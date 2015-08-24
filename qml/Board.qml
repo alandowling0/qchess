@@ -31,6 +31,16 @@ Item {
         onThinkingComplete:{
             stopThinking()
             doMove(aOriginX, aOriginY, aDestinationX, aDestinationY, aMoving, aCaptured)
+
+            if(aCaptured === 0)
+            {
+                moveSound.play()
+            }
+            else
+            {
+                captureSound.play()
+            }
+
             computerMovePlayed(aOriginX, aOriginY, aDestinationX, aDestinationY, aMoving, aCaptured)
         }
 
@@ -108,6 +118,15 @@ Item {
                         var captured = haveClickedPiece ? pieceModel.get(clickedPieceIndex).typeId : 0
 
                         doMove(colFrom, rowFrom, col, row, moving, captured)
+
+                        if(captured === 0)
+                        {
+                            moveSound.play()
+                        }
+                        else
+                        {
+                            captureSound.play()
+                        }
 
                         humanMovePlayed(colFrom, rowFrom, col, row, moving, captured)
 
@@ -193,15 +212,6 @@ Item {
         pieceSlidingEnabled = true
         pieceModel.doMove(colFrom, rowFrom, col, row, moving, captured)
         pieceSlidingEnabled = false
-
-        if(captured === 0)
-        {
-            moveSound.play()
-        }
-        else
-        {
-            captureSound.play()
-        }
 
         whiteToMove = !whiteToMove
     }
