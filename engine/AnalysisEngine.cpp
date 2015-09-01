@@ -13,29 +13,35 @@ AnalysisEngine::AnalysisEngine(MAnalysisEngineObserver& aObserver)
     iHashTable.reset(hashTable);
 }
 
-void AnalysisEngine::StartAsync(ChessPosition aPosition)
+void AnalysisEngine::StartAsync(ChessPosition aPosition, int aMaxDepth, std::chrono::milliseconds aMaxTime)
 {
     assert(!iStarted);
     if(iStarted)
         Stop();
 
     iStarted = true;
-    iFuture = std::async(std::launch::async, &AnalysisEngine::Start, this, aPosition);
+    iFuture = std::async(std::launch::async, &AnalysisEngine::Start, this, aPosition, aMaxDepth, aMaxTime);
 }
 
-void AnalysisEngine::Start(ChessPosition aPosition)
+void AnalysisEngine::Start(ChessPosition aPosition, int aMaxDepth, std::chrono::milliseconds aMaxTime)
 {
     iPosition = std::move(aPosition);
 
     iMainLine.resize(1);
     iMainLine[0].clear();
 
-    for (auto depth = 1; depth <= KMaxDepth; ++depth)
+    iMaxDepth = aMaxDepth;
+    iMaxTime = aMaxTime;
+    iStartTime = std::chrono::system_clock::now();
+
+    for (auto depth = 1; depth <= iMaxDepth; ++depth)
     {
         iCurrentDepth = 0;
 
         Analyze(depth, KMaxEvaluation, -KMaxEvaluation);
     }
+
+    iObserver.AnalysisComplete();
 }
 
 void AnalysisEngine::Stop()
@@ -53,6 +59,11 @@ bool AnalysisEngine::Started() const
 
 int AnalysisEngine::Analyze(int aDepth, int aAlpha, int aBeta)
 {
+    auto duration = std::chrono::system_clock::now() - iStartTime;
+
+    if(duration > iMaxTime)
+        iStarted = false;
+
     if(!iStarted)
         return 0;
 
@@ -192,7 +203,7 @@ int AnalysisEngine::Analyze(int aDepth, int aAlpha, int aBeta)
 		}
 	}
 
-	if (aDepth >= KMinHashTableSaveDepth)
+    if (aDepth >= KMinHashTableSaveDepth && iStarted)
 		iHashTable->Save(iPosition, Evaluation(bestScore, aDepth, evaluationType), bestMove);
 
 	return bestScore;

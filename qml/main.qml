@@ -53,7 +53,7 @@ ApplicationWindow {
 
                 if(!twoPlayer.checked)
                 {
-                    startThinking()
+                    board.startThinking()
                 }
             }
 
@@ -156,9 +156,7 @@ ApplicationWindow {
                 MenuItem {
                     text: "Force Move";
                     shortcut: "Ctrl+F";
-                    onTriggered: {
-                        board.startThinking()
-                    }
+                    onTriggered: board.forceMove()
                 }
 
                 MenuItem {

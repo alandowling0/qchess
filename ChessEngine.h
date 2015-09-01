@@ -24,6 +24,7 @@ public:
 
 	//From MAnalysisEngineObserver
     void MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluation) override;
+    void AnalysisComplete() override;
 
 signals:
     void thinkingComplete(int aOriginX, int aOriginY, int aDestinationX, int aDestinationY, int aMoving, int aCaptured);

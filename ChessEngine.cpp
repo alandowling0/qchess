@@ -71,7 +71,7 @@ void ChessEngine::startThinking()
 
     ChessPosition position(board, sideToMove);
 
-    iAnalysisEngine.StartAsync(position);
+    iAnalysisEngine.StartAsync(position, 6, std::chrono::seconds(10));
 }
 
 void ChessEngine::stopThinking()
@@ -101,8 +101,11 @@ void ChessEngine::MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluat
     ss << aEvaluation << std::endl;
 
     emit mainLineChanged(QString(ss.str().c_str()));
+}
 
-    if(aMainLine.size() > 4)
+void ChessEngine::AnalysisComplete()
+{
+    if(iBestMove.Type() != MoveType::ENull)
     {
         emit thinkingComplete(iBestMove.OriginX(),
                               iBestMove.OriginY(),
@@ -113,4 +116,3 @@ void ChessEngine::MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluat
                               );
     }
 }
-

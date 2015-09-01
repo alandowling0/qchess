@@ -264,4 +264,16 @@ Item {
 
         chessEngine.startThinking()
     }
+
+    function forceMove()
+    {
+        if(chessEngine.isThinking())
+        {
+            chessEngine.stopThinking()
+        }
+        else
+        {
+            startThinking()
+        }
+    }
 }

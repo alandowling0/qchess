@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 #include "ChessPosition.h"
 #include "HashTable.h"
 
@@ -8,6 +8,7 @@ class MAnalysisEngineObserver
 {
 public:
 	virtual void MainLineChanged(std::vector<ChessMove> aMainLine, int aEvaluation) = 0;
+    virtual void AnalysisComplete() = 0;
 };
 
 class AnalysisEngine
@@ -15,8 +16,8 @@ class AnalysisEngine
 public:
     AnalysisEngine(MAnalysisEngineObserver& aObserver);
 
-    void StartAsync(ChessPosition aPosition);
-    void Start(ChessPosition aPosition);
+    void StartAsync(ChessPosition aPosition, int aMaxDepth, std::chrono::milliseconds aMaxTime);
+    void Start(ChessPosition aPosition, int aMaxDepth, std::chrono::milliseconds aMaxTime);
     void Stop();
     bool Started() const;
 
@@ -25,7 +26,6 @@ private:
 	void UpdateMainLine(ChessMove const& aBestMove, int aEvaluation);
 
 private:
-	static const int KMaxDepth = 20;
 	static const int KMaxEvaluation = 10000;
 	static const int KMinHashTableSaveDepth = 1;
 
@@ -36,4 +36,8 @@ private:
 	std::unique_ptr<HashTable> iHashTable;
     std::future<void> iFuture;
     std::atomic<bool> iStarted;
+    std::chrono::time_point<std::chrono::system_clock> iStartTime;
+
+    int iMaxDepth;
+    std::chrono::milliseconds iMaxTime;
 };
